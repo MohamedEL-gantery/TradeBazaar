@@ -70,13 +70,11 @@ const createOrder = async (session) => {
     paidAt: Date.now(),
   });
   if (order) {
-    const productIds = cart.cartItems.map((item) => item.product);
-    for (const productId of productIds) {
-      await Product.findByIdAndUpdate(productId, {
-        $set: { availability: false },
-      });
-    }
-
+    const productId = cart.cartItems.map((item) => item.product);
+    await Product.updateMany(
+      { _id: { $in: productId } },
+      { $set: { availability: false } }
+    );
     await Cart.findByIdAndDelete(cartId);
   }
 };
