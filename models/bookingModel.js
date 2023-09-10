@@ -17,10 +17,7 @@ const bookingSchema = new mongoose.Schema({
       totalPriceForRent: Number,
     },
   ],
-  taxPrice: {
-    type: Number,
-    default: 0,
-  },
+  taxPrice: Number,
   shippingAddress: {
     details: String,
     phone: {
