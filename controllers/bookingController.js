@@ -62,7 +62,7 @@ const createOrder = async (session) => {
   const user = await User.findOne({ email: session.customer_email });
 
   // 1) Create order
-  await Booking.create({
+  const order = await Booking.create({
     user: user._id,
     cartItems: cart.cartItems,
     shippingAddress,
