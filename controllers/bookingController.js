@@ -75,7 +75,7 @@ const createOrder = async (session) => {
     for (const productId of productIds) {
       await Product.findOneAndUpdate(
         { _id: productId },
-        { $set: { availability: false } },
+        { $set: { availablity: false } },
         { new: true }
       );
     }
