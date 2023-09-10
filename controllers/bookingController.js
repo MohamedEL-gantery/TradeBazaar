@@ -70,11 +70,15 @@ const createOrder = async (session) => {
     paidAt: Date.now(),
   });
   if (order) {
-    const productId = cart.cartItems.map((item) => item.product);
-    await Product.updateMany(
-      { _id: { $in: productId } },
-      { $set: { availability: false } }
-    );
+    const bulkOption = cart.cartItems.map((item) => ({
+      updateOne: {
+        filter: { _id: item.product },
+        update: { $inc: { availability: false } },
+      },
+    }));
+
+    await Product.bulkWrite(bulkOption, {});
+
     await Cart.findByIdAndDelete(cartId);
   }
 };
