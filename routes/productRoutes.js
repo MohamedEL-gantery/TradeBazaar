@@ -21,8 +21,6 @@ router.post(
   productController.createProduct
 );
 
-router.use(authController.restrictTo('admin', 'user'));
-
 router.get(
   '/',
   productController.createFilterObj,
@@ -33,10 +31,14 @@ router
   .route('/:id')
   .get(productController.getProduct)
   .patch(
+    authController.restrictTo('user'),
     productController.uploadProductPhoto,
     productController.resizeProductPhoto,
     productController.updateProduct
   )
-  .delete(productController.deleteProduct);
+  .delete(
+    authController.restrictTo('admin', 'user'),
+    productController.deleteProduct
+  );
 
 module.exports = router;

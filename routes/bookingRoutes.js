@@ -15,14 +15,13 @@ router.get(
 
 router.get(
   '/',
-  authController.restrictTo('user', 'admin'),
   bookingController.filterBookingForLoggedUser,
   bookingController.getAllBookings
 );
 
 router
   .route('/:id')
-  .get(authController.restrictTo('user', 'admin'), bookingController.getBooking)
+  .get(bookingController.getBooking)
   .patch(authController.restrictTo('admin'), bookingController.updateBooking)
   .delete(authController.restrictTo('admin'), bookingController.deleteBooking);
 
