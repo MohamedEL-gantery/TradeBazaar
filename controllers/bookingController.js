@@ -73,7 +73,7 @@ const createOrder = async (session) => {
     const bulkOption = cart.cartItems.map((item) => ({
       updateOne: {
         filter: { _id: item.product },
-        update: { $set: { availability: false } },
+        update: { availability: false },
       },
     }));
 
