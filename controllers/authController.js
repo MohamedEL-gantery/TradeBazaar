@@ -12,17 +12,16 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
-  const cookieOptions = {
+  res.cookie('jwt', token, {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-  };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  });
 
-  res.cookie('jwt', token, cookieOptions);
   // Remove password from output
   user.password = undefined;
 
@@ -43,7 +42,7 @@ exports.signupForAdmin = catchAsync(async (req, res, next) => {
     RestCodeSignup: true,
     role: 'admin',
   });
-  createSendToken(admin, 201, res);
+  createSendToken(admin, 201, req, res);
 });
 
 exports.signup = catchAsync(async (req, res, next) => {
@@ -154,7 +153,7 @@ exports.verifySignUp = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 6) If everything is ok, generate a new token and send it in the response
-  createSendToken(user, 201, res);
+  createSendToken(user, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -176,7 +175,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) If everything ok, send token to clinet.
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -315,7 +314,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // 3) If everything is ok, generate token
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -332,7 +331,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
