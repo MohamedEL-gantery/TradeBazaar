@@ -29,7 +29,7 @@ In the project directory, you can run:
 
 - `npm start` or `npm run start:dev` to run the app in development mode.
 - `npm start` or `npm run start:prod` to run the app in production mode.
-- The app will be available at [https://store-bg28.onrender.com/](https://store-bg28.onrender.com/).
+- The app will be available at [https://tradebazaar.onrender.com/](https://tradebazaar.onrender.com/).
 
 ## Contributing
 
