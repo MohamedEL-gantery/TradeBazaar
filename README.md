@@ -39,7 +39,7 @@ Contributions to TradeBazaar are welcome! If you find any issues or have suggest
 
 The following development tools were used in this project:
 
-- **VSCode** ![VSCode](): A lightweight and powerful code editor with features like IntelliSense, debugging, and Git integration.
+- **VSCode** [![VSCode](image-link)](https://code.visualstudio.com): A lightweight and powerful code editor with features like IntelliSense, debugging, and Git integration.
 - **Postman** ![Postman](): A popular API testing tool for testing and debugging API endpoints.
 
 These tools greatly enhance the development experience and facilitate efficient coding, testing, and debugging processes.
